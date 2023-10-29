@@ -1,6 +1,6 @@
 import React from "react";
 import Browse from "./Browse";
-import Cards from "./Cards";
+// import Cards from "./Cards";
 import Carousel from "./carousal";
 import Login from "./login";
 import CenteredContent from "./CenteredContent";

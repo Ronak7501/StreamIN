@@ -8,6 +8,8 @@ import Login from './components/login';
 import Home from './components/Home';
 import SignUp from './components/signup';
 import Dashboard from './components/dashboard';
+import VideoCall from './components/Streaming';
+import VideoCallPage from './components/liveStreamPage';
 
 
 function App() {
@@ -20,6 +22,9 @@ function App() {
           <Route path="/signup" element={<SignUp />}/>
 
           <Route path="/Dashboard" element={<Dashboard />}/>
+
+          <Route path="/Streaming" component={<VideoCall/>} />
+          <Route path="/liveStreamPage" component={<VideoCallPage/>} />
         
         </Routes>
     </Router>
