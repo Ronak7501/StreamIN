@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -9,19 +8,14 @@ const NewComponent = ({ onClose }) => {
   const location = useLocation();
   const hideNavbar = location.pathname === '/Streaming';
   const [displayNewComponent, setDisplayNewComponent] = useState(false);
-  // const history = useHistory(); // Access the useHistory hook
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setDisplayNewComponent(true);
-    // Redirect to the 'VideoCallPage' when the form is submitted
-    // history.push('/components/liveStreamPage');
-    // Handle form submission logic here
   };
 
   return (
     <div className="popup m-20 ml-80 mr-80">
-      {!hideNavbar && <Navbar />}
       <div className="popup-content">
         {displayNewComponent ? (
           <VideoCallPage />
