@@ -1,0 +1,25 @@
+.fullscreen-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  overflow: auto; /* Enable scrolling in the video frame */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-container {
+  display: flex; /* Add flexbox */
+  justify-content: center; /* Center icons horizontally */
+  align-items: center;
+  position: absolute;
+  bottom: 20px; /* Adjust the position of the icons as needed */
+  left: 0; /* Adjust position based on requirements */
+  right: 0; /* Adjust position based on requirements */
+  z-index: 10000; /* Ensure the icons are on top */
+}
+

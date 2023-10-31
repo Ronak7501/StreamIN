@@ -1,16 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone, faVideo, faDesktop, faCompress,faExpand } from '@fortawesome/free-solid-svg-icons';
+import './Streaming.css';
 
 const VideoCall = () => {
   const videoRef = useRef();
   const canvasRef = useRef();
-  let localStream = null;
+  const [localStream, setLocalStream] = useState(null);
 
   useEffect(() => {
     async function startVideoCall() {
       try {
-        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        videoRef.current.srcObject = localStream;
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        setLocalStream(stream);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
       } catch (error) {
         console.error('Error accessing user media:', error);
       }
@@ -26,57 +31,89 @@ const VideoCall = () => {
   }, []);
 
   const toggleAudio = () => {
-    localStream.getAudioTracks().forEach(track => {
-      track.enabled = !track.enabled;
-    });
+    if (localStream) {
+      localStream.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled;
+      });
+    }
   };
 
   const toggleVideo = () => {
-    localStream.getVideoTracks().forEach(track => {
-      track.enabled = !track.enabled;
-    });
+    if (localStream) {
+      localStream.getVideoTracks().forEach(track => {
+        track.enabled = !track.enabled;
+      });
+    }
   };
 
-  const captureCanvasVideo = () => {
-    const context = canvasRef.current.getContext('2d');
-    context.drawImage(videoRef.current, 0, 0, 640, 480);
+  const shareScreen = async () => {
+    try {
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = screenStream;
+        setLocalStream(screenStream);
+  
+        screenStream.oninactive = () => {
+          // Screen share stopped by the user
+          stopScreenShare();
+        };
+      }
+    } catch (error) {
+      console.error('Error sharing screen:', error);
+    }
   };
 
-  return (
-    <div className="flex flex-col items-center">
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted
-        className="w-full h-auto max-w-md rounded-md shadow-lg"
-      ></video>
-      <canvas
-        ref={canvasRef}
-        className="w-full h-auto max-w-md rounded-md mt-4 shadow-lg"
-      ></canvas>
-      <div className="mt-4 space-x-4">
-        <button
-          onClick={toggleAudio}
-          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
-        >
-          Toggle Audio
-        </button>
-        <button
-          onClick={toggleVideo}
-          className="bg-red-500 text-white px-4 py-2 rounded cursor-pointer"
-        >
-          Toggle Video
-        </button>
-        <button
-          onClick={captureCanvasVideo}
-          className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer"
-        >
-          Capture Video to Canvas
-        </button>
-      </div>
-    </div>
-  );
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setLocalStream(stream);
+      }
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+    }
+  };
+  
+  
+  const stopScreenShare = () => {
+    if (videoRef.current) {
+      if (localStream) {
+        videoRef.current.srcObject = localStream;
+        setLocalStream(localStream);
+      } else {
+        startCamera(); // If localStream is not available, start the camera stream
+      }
+    }
+  };
+
+const [isVideoMaximized, setIsVideoMaximized] = useState(false);
+
+const videoElementClass = isVideoMaximized ? 'fullscreen-video' : '';
+
+const maximizeVideoFrame = () => {
+  const videoElement = videoRef.current;
+  if (videoElement) {
+    setIsVideoMaximized(!isVideoMaximized);
+  }
 };
+  
+return (
+ 
+  <div className="relative">
+  <div className="video-container">
+    <video ref={videoRef} autoPlay playsInline muted className={videoElementClass} />
+    <canvas ref={canvasRef} width={640} height={480} style={{ display: 'none' }} />
+    <div className="overlay-container">
+      {/* Include your control icons here */}
+      <FontAwesomeIcon icon={faMicrophone} onClick={toggleAudio} className="p-5 text-blue-500 cursor-pointer" />
+      <FontAwesomeIcon icon={faVideo} onClick={toggleVideo} className="p-5 text-red-500 cursor-pointer" />
+      <FontAwesomeIcon icon={faDesktop} onClick={shareScreen} className="p-5 text-green-500 cursor-pointer" />
+      <FontAwesomeIcon icon={faExpand} onClick={maximizeVideoFrame} className="p-5 text-indigo-500 cursor-pointer" />
+    </div>
+  </div>
+</div>
+
+);}
 
 export default VideoCall;
