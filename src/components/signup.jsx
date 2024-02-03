@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './SignUp.css'; // Import your CSS file
+import axios from 'axios';
+import { logRoles } from '@testing-library/react';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -8,8 +10,19 @@ function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    // Add your sign-up logic here
-    console.log('Signing up with username:', username, 'email:', email, 'and password:', password);
+    if({username} && {email} && {password}){
+
+      const userData = {
+        username: username,
+        email: email,
+        password: password
+      }
+      axios.post("http://localhost:9002/signup",userData)
+      .then( res => alert(res.data.message))
+    }else{
+      alert("Invalid Input")
+    }
+
   }
 
   return (

@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import './login.css'; // Import your CSS file
+import axios from "axios"
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault();
-    // Add your authentication logic here
-    console.log('Logging in with username:', username, 'and password:', password);
+    e.preventDefault()
+    if({email} && {password}){
+      const loginData = {
+        email : email,
+        password : password
+      }
+      axios.post("http://localhost:9002/login", loginData)
+      .then(res => alert(res.data.message))
+    }else{
+      console.log("Invalid Input");
+    }
   }
 
   return (
@@ -16,13 +25,13 @@ function Login() {
       <form className="login-form" onSubmit={handleLogin}>
         <h2>Login</h2>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Email</label>
           <input
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -38,6 +47,8 @@ function Login() {
           />
         </div>
         <button type="submit">Login</button>
+        <div>or</div>
+        <div className="button">Register</div>
       </form>
     </div>
   );

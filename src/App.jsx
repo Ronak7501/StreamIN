@@ -4,13 +4,12 @@ import { BrowserRouter as Router, Route, Switch, Link, Routes } from 'react-rout
 import Main from "./components/Main";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Login from './components/login';
+import Login from './components/Login';
 import Home from './components/Home';
 import SignUp from './components/signup';
-import Dashboard from './components/dashboard';
+import Dashboard from './components/Dashboard';
 import VideoCall from './components/Streaming';
 import VideoCallPage from './components/liveStreamPage';
-
 
 function App() {
   return (    

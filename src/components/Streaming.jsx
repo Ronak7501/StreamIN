@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMicrophone, faVideo, faDesktop, faCompress,faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faVideo, faDesktop,faExpand } from '@fortawesome/free-solid-svg-icons';
 import './Streaming.css';
 
 const VideoCall = () => {

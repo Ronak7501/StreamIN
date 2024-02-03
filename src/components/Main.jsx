@@ -1,8 +1,8 @@
 import React from "react";
 import Browse from "./Browse";
 // import Cards from "./Cards";
-import Carousel from "./carousal";
-import Login from "./login";
+import Carousel from "./Carousal";
+import Login from "./Login";
 import CenteredContent from "./CenteredContent";
 
 const Main = () => {
