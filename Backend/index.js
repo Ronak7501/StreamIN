@@ -66,7 +66,7 @@ app.post("/signup", async (req, res) => {
             });
 
             await user.save();
-            res.status(200).send({ message: "Successfully registered" });
+            res.status(200).send({ message: "Successfully registered! You can Login now" });
         }
     } catch (error) {
         console.error(error);

@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import './SignUp.css'; // Import your CSS file
 import axios from 'axios';
 import { logRoles } from '@testing-library/react';
+import { useNavigate } from 'react-router-dom';
+
 
 function SignUp() {
+
+  const navigate = useNavigate()
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +22,8 @@ function SignUp() {
         password: password
       }
       axios.post("http://localhost:9002/signup",userData)
-      .then( res => alert(res.data.message))
+      .then( res => {alert(res.data.message)
+      navigate("/Login")})
     }else{
       alert("Invalid Input")
     }
@@ -62,7 +67,7 @@ function SignUp() {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="bg-[#9147ff] hover:bg-[#7d33cc] text-white font-bold py-2 px-4 rounded-full">Sign Up</button>
       </form>
     </div>
   );

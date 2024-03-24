@@ -132,7 +132,7 @@ const CAMERA_CONSTRAINTS = {
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [streamKey, setStreamKey] = useState(null);
-  const [shoutOut, setShoutOut] = useState("you");
+  const [shoutOut, setShoutOut] = useState("");
 
   const inputStreamRef = useRef();
   const videoRef = useRef();
@@ -183,8 +183,8 @@ const CAMERA_CONSTRAINTS = {
     );
 
     ctx.fillStyle = "#ff0000";
-    ctx.font = "50px monospace";
-    ctx.fillText(`Oh hi, ${nameRef.current}`, 5, 50);
+    ctx.font = "40px monospace";
+    ctx.fillText(`${nameRef.current}`, 250, 50);
 
     requestAnimationRef.current = requestAnimationFrame(updateCanvas);
   };
@@ -303,12 +303,12 @@ const CAMERA_CONSTRAINTS = {
           ></video>
         </div>
         <div className="column">
-          <h2>Output</h2>
           <canvas ref={canvasRef}></canvas>
+          <h2>Output</h2>
           <input
-            placeholder="Shout someone out!"
-            type="text"
-            onChange={(e) => setShoutOut(e.target.value)}
+          placeholder="Shout someone out!"
+          type="text"
+          onChange={(e) => setShoutOut(e.target.value)}
           />
         </div>
       </div>

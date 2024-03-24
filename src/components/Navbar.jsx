@@ -1,10 +1,16 @@
 import React from "react";
 import logo from "../assets/logo.png";
-import { BsThreeDotsVertical, BsFillInboxFill } from "react-icons/bs";
-import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ user, handleLogout }) => {
+  const navigate  = useNavigate();
+
+  const handleLogoutClick = () => {
+    handleLogout(); // Call the logout function provided as a prop
+    navigate("/login"); // Redirect to the login page
+  };
+
   return (
     <div className="sticky top-0  bg-white py-[0.6rem] px-4 lg:px-10 flex items-center justify-between z-20">
       {/* Left Side */}
@@ -13,37 +19,30 @@ const Navbar = () => {
         <div className="">
           <p className="font-bold text-[#9147ff]">StreamIN</p>
         </div>
-        {/* <BsThreeDotsVertical className="text-[20px]" /> */}
       </div>
-      {/* Middle */}
-      {/* <div className="sm:flex items-center relative hidden">
-        <input
-          type="search"
-          placeholder="Search"
-          className="outline-0 bg-[#e9e9e9] p-1.5 rounded-full pl-8  sm:w-[10rem] md:w-[20rem] lg:w-[30rem] "
-        />
-        <FiSearch className="absolute left-2" />
-      </div> */}
-      {/* Right */}
+      
       <div className="flex items-center gap-5 ">
-        {/* <div className="relative pr-2">
-          <BsFillInboxFill className="text-[24px]" />
-          <div
-            className="absolute -top-[0.4rem] left-2 w-7 h-4 bg-red-500 rounded-full flex items-center 
-          justify-center animate-pulse"
-          >
-            <p className="text-white font-bold text-[12px]">60</p>
+        {user ? (
+          <div className="bg-gray-300 py-1 px-2 rounded-[0.4rem]">
+            <div className="font-semibold">{user.username}</div>
           </div>
-        </div> */}
-
-        <div className="bg-gray-300 py-1 px-2 rounded-[0.4rem]">
-          <div className="  font-semibold">
-          <Link to="/login">Sign in</Link>
+        ) : (
+          <>
+            <div className="bg-gray-300 py-1 px-2 rounded-[0.4rem]">
+              <div className="font-semibold">
+                <Link to="/login">Sign in</Link>
+              </div>
             </div>
-        </div>
-        <div className="bg-[#9147ff]   py-1 px-2 rounded-[0.4rem]">
-        <div className="text-white font-semibold"> <Link to="/signup">Sign up</Link></div>
-        </div>
+            <div className="bg-[#9147ff] py-1 px-2 rounded-[0.4rem]">
+              <div className="text-white font-semibold">
+                <Link to="/signup">Sign up</Link>
+              </div>
+            </div>
+          </>
+        )}
+        {user && (
+          <button onClick={handleLogoutClick} className="bg-red-500 text-white py-1 px-2 rounded-[0.4rem]">Logout</button>
+        )}
       </div>
     </div>
   );

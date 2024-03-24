@@ -25,15 +25,12 @@
     "ws": "^8.16.0"
   },
   "scripts": {
-    "dev": "nodemon server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "nodemonConfig": {
-    "ignore": [
-      "components/*"
-    ]
-  },
+  
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -1,21 +1,37 @@
 import React, { useState } from 'react';
 import './login.css'; // Import your CSS file
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setLoginUser, handleLogout }) {
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  const handleRegisterClick = () => {
+    navigate('/signup');
+  };
+
   const handleLogin = (e) => {
     e.preventDefault()
-    if({email} && {password}){
+    if (email && password) {
       const loginData = {
-        email : email,
-        password : password
+        email: email,
+        password: password
       }
       axios.post("http://localhost:9002/login", loginData)
-      .then(res => alert(res.data.message))
-    }else{
+        .then(res => {
+          alert(res.data.message)
+          setLoginUser(res.data.user)
+          navigate("/")
+        })
+        .catch(error => {
+          console.error("Login failed:", error);
+          alert("Login failed. Please try again.");
+        });
+    } else {
       console.log("Invalid Input");
     }
   }
@@ -46,9 +62,11 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="bg-[#9147ff] hover:bg-[#7d33cc] text-white font-bold py-2 px-4 rounded-full">
+  Login
+</button>
         <div>or</div>
-        <div className="button">Register</div>
+        <div className= "font-bold button" onClick={handleRegisterClick}>Register</div>
       </form>
     </div>
   );
