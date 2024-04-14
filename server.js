@@ -30,34 +30,73 @@ app.prepare().then(() => {
     ws.send('WELL HELLO THERE FRIEND');
 
     const queryString = url.parse(req.url).search;
+    console.log(queryString);
     const params = new URLSearchParams(queryString);
+    console.log(params);
     const key = params.get('key');
+    const rtmp = params.get('rtmpUrl')
 
-    // const rtmpUrl = `rtmp://x.rtmp.youtube.com/live2/3fdx-ykvv-bt7m-wjsb-ffv2`;
-    const rtmpUrl = `rtmp://x.rtmp.youtube.com/live2/3fdx-ykvv-bt7m-wjsb-ffv2`;
+    const rtmpUrl = `${rtmp}/${key}`;
+  
+  
+    // const ffmpeg = child_process.spawn('ffmpeg', [
+    //   '-i','-',
+
+    //   // video codec config: low latency, adaptive bitrate
+    //   '-c:v', 'libx264', '-b:v', '500k','-preset', 'ultrafast', '-tune', 'zerolatency',
+    // //   '-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
+
+    //   // audio codec config: sampling frequency (11025, 22050, 44100), bitrate 64 kbits
+    // //   '-c:a', 'aac', '-strict', '-2', '-ar', '44100', '-b:a', '64k',
+    //     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
+
+    //   //force to overwrite
+    //   '-y',
+
+    //   // used for audio sync
+    //   '-use_wallclock_as_timestamps', '1',
+    //   '-async', '1',
+
+    //   //'-filter_complex', 'aresample=44100', // resample audio to 44100Hz, needed if input is not 44100
+    //   //'-strict', 'experimental',
+    //   '-bufsize', '1000',
+    //   '-f', 'flv',
+
+    //   rtmpUrl
+    // ]);
+
+    // const ffmpeg = child_process.spawn('ffmpeg', [
+    //   '-i', '-',
+    //   '-c:v', 'libx264', // Video codec
+    //   '-preset', 'ultrafast', // Fastest encoding preset
+    //   '-tune', 'zerolatency', // Zero latency tuning
+    //   '-b:v', '1500k', // Video bitrate (adjust as needed)
+    //   '-c:a', 'aac', // Audio codec
+    //   '-b:a', '128k', // Audio bitrate (adjust as needed)
+    //   '-bufsize', '3000k', // Buffer size (adjust as needed)
+    //   '-f', 'flv',
+    //   '-y',
+    //   rtmpUrl
+    // ]);
 
     const ffmpeg = child_process.spawn('ffmpeg', [
-      '-i','-',
+      '-i', '-',
 
-      // video codec config: low latency, adaptive bitrate
-      '-c:v', 'libx264', '-b:v', '500k','-preset', 'ultrafast', '-tune', 'zerolatency',
-    //   '-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
+      // Video codec config: optimized for quality and low latency
+      '-c:v', 'libx264', '-preset', 'veryfast', '-tune', 'zerolatency', '-profile:v', 'baseline', '-pix_fmt', 'yuv420p',
+      
+      // Audio codec config: AAC codec with higher bitrate for better quality
+      '-c:a', 'aac', '-b:a', '128k', '-ar', '44100',
 
-      // audio codec config: sampling frequency (11025, 22050, 44100), bitrate 64 kbits
-    //   '-c:a', 'aac', '-strict', '-2', '-ar', '44100', '-b:a', '64k',
-        '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
-
-      //force to overwrite
+      // Force to overwrite
       '-y',
 
-      // used for audio sync
+      // Additional settings for smoother streaming
       '-use_wallclock_as_timestamps', '1',
       '-async', '1',
 
-      //'-filter_complex', 'aresample=44100', // resample audio to 44100Hz, needed if input is not 44100
-      //'-strict', 'experimental',
-      '-bufsize', '1000',
       '-f', 'flv',
+      '-bufsize', '512k',
 
       rtmpUrl
     ]);
@@ -96,3 +135,6 @@ app.prepare().then(() => {
     });
   });
 });
+
+
+
