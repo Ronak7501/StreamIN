@@ -37,6 +37,7 @@ app.prepare().then(() => {
     const rtmp = params.get('rtmpUrl')
 
     const rtmpUrl = `${rtmp}/${key}`;
+    console.log(rtmpUrl);
   
   
     // const ffmpeg = child_process.spawn('ffmpeg', [
@@ -99,6 +100,7 @@ app.prepare().then(() => {
       '-bufsize', '512k',
 
       rtmpUrl
+      
     ]);
 
     // Kill the WebSocket connection if ffmpeg dies.
