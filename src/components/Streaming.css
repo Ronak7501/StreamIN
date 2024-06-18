@@ -13,13 +13,13 @@
 }
 
 .overlay-container {
-  display: flex; /* Add flexbox */
-  justify-content: center; /* Center icons horizontally */
+  display: flex; 
+  justify-content: center; 
   align-items: center;
   position: absolute;
-  bottom: 20px; /* Adjust the position of the icons as needed */
-  left: 0; /* Adjust position based on requirements */
-  right: 0; /* Adjust position based on requirements */
-  z-index: 10000; /* Ensure the icons are on top */
+  bottom: 20px; 
+  left: 0; 
+  right: 0;
+  z-index: 10000; 
 }
 

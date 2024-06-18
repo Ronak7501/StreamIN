@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
-import './SignUp.css'; // Import your CSS file
-import axios from 'axios';
-import { logRoles } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './SignUp.css';
 
-
-function SignUp() {
-
-  const navigate = useNavigate()
+const SignUp = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    if({username} && {email} && {password}){
-
-      const userData = {
-        username: username,
-        email: email,
-        password: password
-      }
-      axios.post("http://localhost:9002/signup",userData)
-      .then( res => {alert(res.data.message)
-      navigate("/Login")})
-    }else{
-      alert("Invalid Input")
+    if (username && email && password) {
+      const userData = { username, email, password }; 
+      axios.post("http://localhost:9002/signup", userData)
+        .then(res => {
+          alert(res.data.message); 
+          navigate("/Login");
+        })
+        .catch(error => {
+          console.error('Error during signup:', error);
+        });
+    } else {
+      alert("Invalid Input");
     }
-
-  }
+  };
 
   return (
     <div className="signup-container">
@@ -71,6 +67,7 @@ function SignUp() {
       </form>
     </div>
   );
-}
+};
 
 export default SignUp;
+

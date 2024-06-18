@@ -8,14 +8,9 @@ import CenteredContent from "./CenteredContent";
 const Main = () => {
   return (
     <div className="w-full px-4 lg:px-10">
-      {/* Browse */}
       <Browse />
-      {/* Cards */}
-      {/* <Cards /> */}
       <Carousel />
-      
      <CenteredContent />
-      
     </div>
   );
 };
